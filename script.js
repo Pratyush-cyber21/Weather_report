@@ -1,14 +1,157 @@
 const path = window.location.pathname;
 
 // Handle redirect from homepage to forecast page
-if (path.includes("index.html") || path === "/" || path === "/index.html") {
+if (path.includes("forecast.html")) {
   document.addEventListener("DOMContentLoaded", () => {
-    const forecastBtn = document.getElementById("goToForecast");
-    if (forecastBtn) {
-      forecastBtn.addEventListener("click", () => {
-        window.location.href = "forecast.html";
-      });
-    }
+    const apiKey = "4848a70ff113538c9afb6862da0b3631";
+    const cityInput = document.getElementById("forecastCityInput");
+    const dateInput = document.getElementById("forecastDateInput");
+    const fetchBtn = document.getElementById("getForecastBtn");
+    const chartCanvas = document.getElementById("forecastChart");
+    const conditionDiv = document.getElementById("currentCondition");
+
+    let forecastChart;
+    const ctx = chartCanvas.getContext("2d");
+
+    fetchBtn.addEventListener("click", () => {
+      const city = cityInput.value.trim();
+      const selectedDate = dateInput.value;
+
+      if (!city || !selectedDate) {
+        alert("Please enter both city and date.");
+        return;
+      }
+
+      const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+
+      fetch(apiUrl)
+        .then(response => {
+          if (!response.ok) throw new Error("City not found");
+          return response.json();
+        })
+        .then(data => {
+          const labels = [];
+          const temps = [];
+          const rainChances = [];
+          const humidities = [];
+          const windSpeeds = [];
+
+          let currentFound = false;
+
+          data.list.forEach(entry => {
+            const [date, time] = entry.dt_txt.split(" ");
+            if (date === selectedDate) {
+              labels.push(time.slice(0, 5)); // HH:MM
+              temps.push(entry.main.temp);
+              humidities.push(entry.main.humidity);
+              windSpeeds.push(entry.wind.speed);
+              rainChances.push(entry.pop * 100); // Probability of precipitation
+
+              if (!currentFound) {
+                const condition = entry.weather[0].description;
+                const isRaining = condition.toLowerCase().includes("rain") ? "🌧️ Yes" : "☀️ No";
+                conditionDiv.innerHTML = `
+                  <strong>Current Weather Condition:</strong> ${condition}<br>
+                  <strong>Is it raining?</strong> ${isRaining}
+                `;
+                currentFound = true;
+              }
+            }
+          });
+
+          if (labels.length === 0) {
+            alert("No forecast data for this date.");
+            return;
+          }
+
+          if (forecastChart) forecastChart.destroy();
+
+          forecastChart = new Chart(ctx, {
+            type: "line",
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: "🌡️ Temp (°C)",
+                  data: temps,
+                  borderColor: "#00c3ff",
+                  backgroundColor: "rgba(0,195,255,0.2)",
+                  yAxisID: 'y',
+                },
+                {
+                  label: "🌧️ Rain Probability (%)",
+                  data: rainChances,
+                  borderColor: "#ffa500",
+                  backgroundColor: "rgba(255,165,0,0.2)",
+                  yAxisID: 'y1',
+                },
+                {
+                  label: "💧 Humidity (%)",
+                  data: humidities,
+                  borderColor: "#66bb6a",
+                  backgroundColor: "rgba(102,187,106,0.2)",
+                  yAxisID: 'y1',
+                },
+                {
+                  label: "🌬️ Wind Speed (m/s)",
+                  data: windSpeeds,
+                  borderColor: "#ff4081",
+                  backgroundColor: "rgba(255,64,129,0.2)",
+                  yAxisID: 'y1',
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              interaction: {
+                mode: 'index',
+                intersect: false,
+              },
+              stacked: false,
+              scales: {
+                y: {
+                  type: 'linear',
+                  position: 'left',
+                  title: {
+                    display: true,
+                    text: 'Temperature (°C)',
+                    color: "#00c3ff"
+                  },
+                  ticks: {
+                    color: "#00c3ff"
+                  }
+                },
+                y1: {
+                  type: 'linear',
+                  position: 'right',
+                  title: {
+                    display: true,
+                    text: 'Other Metrics',
+                    color: "#ffa500"
+                  },
+                  ticks: {
+                    color: "#ffa500"
+                  },
+                  grid: {
+                    drawOnChartArea: false
+                  }
+                }
+              },
+              plugins: {
+                legend: {
+                  labels: {
+                    color: "#fff"
+                  }
+                }
+              }
+            }
+          });
+        })
+        .catch(error => {
+          alert("Error fetching weather data.");
+          console.error(error);
+        });
+    });
   });
 }
 

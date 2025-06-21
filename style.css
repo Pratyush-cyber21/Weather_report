@@ -257,3 +257,11 @@ footer .social-icons a:hover {
     padding: 20px;
   }
 }
+.info-box {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1rem;
+  border: 1px solid #00cfff;
+}

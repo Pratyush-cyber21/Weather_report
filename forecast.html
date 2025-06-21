@@ -21,22 +21,21 @@
   </header>
 
   <main>
-    <section class="forecast-section">
-      <div class="forecast-container">
-        <h2>Get Hourly Forecast</h2>
-        
-        <!-- ✅ Input Fields with correct IDs -->
-        <input type="text" id="forecastCityInput" placeholder="Enter city name" />
-        <input type="date" id="forecastDateInput" />
-        
-        <!-- ✅ Button with correct ID -->
-        <button id="getForecastBtn">Get Forecast</button>
-      </div>
+  <section class="forecast-section">
+    <div class="forecast-container">
+      <h2>Get Hourly Forecast</h2>
+      <input type="text" id="forecastCityInput" placeholder="Enter city name" />
+      <input type="date" id="forecastDateInput" />
+      <button id="getForecastBtn">Get Forecast</button>
+    </div>
 
-      <!-- ✅ Canvas with correct ID -->
-      <canvas id="forecastChart" width="600" height="400"></canvas>
-    </section>
-  </main>
+    <!-- Current Weather Info -->
+    <div id="currentCondition" class="info-box" style="margin: 20px 0; color: #fff;"></div>
+
+    <!-- Chart Canvas -->
+    <canvas id="forecastChart" width="600" height="400"></canvas>
+  </section>
+</main>
 
   <!-- ✅ Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
