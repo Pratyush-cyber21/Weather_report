@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ClimaTrack | Forecast</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <lottie-player src="assets/logo-animation.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+      <h1>ClimaTrack</h1>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="forecast.html">Forecast</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="forecast-section">
+      <div class="forecast-container">
+        <h2>Get Hourly Forecast</h2>
+        
+        <!-- ✅ Input Fields with correct IDs -->
+        <input type="text" id="forecastCityInput" placeholder="Enter city name" />
+        <input type="date" id="forecastDateInput" />
+        
+        <!-- ✅ Button with correct ID -->
+        <button id="getForecastBtn">Get Forecast</button>
+      </div>
+
+      <!-- ✅ Canvas with correct ID -->
+      <canvas id="forecastChart" width="600" height="400"></canvas>
+    </section>
+  </main>
+
+  <!-- ✅ Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- ✅ Custom Script -->
+  <script src="script.js"></script>
+
+  <!-- ✅ Lottie + AOS -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+</body>
+</html>

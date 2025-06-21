@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | ClimaTrack</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <lottie-player src="assets/logo-animation.json" background="transparent" speed="1"
+        style="height: 40px; width: 40px;" loop autoplay></lottie-player>
+      <span style="color: white; font-weight: bold; margin-left: 10px;">ClimaTrack</span>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="forecast.html">Forecast</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="contact-section" data-aos="fade-up">
+    <h2>Contact Me</h2>
+    <form action="https://formspree.io/f/mblyaznd" method="POST" id="contact-form">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" placeholder="Your Message" required></textarea>
+
+      <input type="hidden" name="_subject" value="New ClimaTrack Contact Message!" />
+      <input type="hidden" name="_captcha" value="false" />
+
+      <button type="submit">Send Message</button>
+    </form>
+
+    <div id="success-message" style="display:none; text-align:center; margin-top:20px; font-weight:bold; color:green;">
+      ✅ Your message has been sent successfully!
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 ClimaTrack by Pratyush Sahoo</p>
+    <div class="social-icons">
+      <a href="https://github.com/Pratyush-cyber21" target="_blank">GitHub</a> |
+      <a href="https://www.linkedin.com/in/pratyush-kumar-sahoo-958106254/" target="_blank">LinkedIn</a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init();</script>
+  <script src="script.js"></script>
+</body>
+</html>
