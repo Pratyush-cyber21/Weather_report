@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>ClimaTrack | Forecast</title>
-    <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ClimaTrack | Forecast</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <div class="logo-container">
-      <lottie-player src="assets/logo-animation.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+      <lottie-player src="assets/logo-animation.json" background="transparent" speed="1"
+        style="width: 50px; height: 50px;" loop autoplay></lottie-player>
       <h1>ClimaTrack</h1>
     </div>
     <nav>
@@ -21,33 +22,23 @@
   </header>
 
   <main>
-  <section class="forecast-section">
-    <div class="forecast-container">
-      <h2>Get Hourly Forecast</h2>
-      <input type="text" id="forecastCityInput" placeholder="Enter city name" />
-      <input type="date" id="forecastDateInput" />
-      <button id="getForecastBtn">Get Forecast</button>
-    </div>
+    <section class="forecast-section">
+      <div class="forecast-container">
+        <h2>Check 30-Min Interval Forecast</h2>
+        <input type="text" id="forecastCityInput" placeholder="Enter city name" />
+        <input type="date" id="forecastDateInput" />
+        <button id="getForecastBtn">Get Forecast</button>
+      </div>
+      <div id="forecastData" class="forecast-data"></div>
+    </section>
+  </main>
 
-    <!-- Current Weather Info -->
-    <div id="currentCondition" class="info-box" style="margin: 20px 0; color: #fff;"></div>
-
-    <!-- Chart Canvas -->
-    <canvas id="forecastChart" width="600" height="400"></canvas>
-  </section>
-</main>
-
-  <!-- ✅ Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- ✅ Custom Script -->
-  <script src="script.js"></script>
-
-  <!-- ✅ Lottie + AOS -->
+  <!-- Lottie Player + AOS -->
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    AOS.init();
-  </script>
+  <script>AOS.init();</script>
+
+  <!-- Forecast Script -->
+  <script src="script.js"></script>
 </body>
 </html>
