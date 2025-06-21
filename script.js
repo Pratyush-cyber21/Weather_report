@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const apiKey = "4848a70ff113538c9afb6862da0b3631";
+  const apiKey = "4848a70ff113538c9afb6862da0b3631"; // ✅ Replace with your API key if needed
   const cityInput = document.getElementById("forecastCityInput");
   const dateInput = document.getElementById("forecastDateInput");
   const fetchBtn = document.getElementById("getForecastBtn");
-  const forecastContainer = document.getElementById("forecastData");
+  const forecastOutput = document.getElementById("forecastData");
 
   fetchBtn.addEventListener("click", () => {
     const city = cityInput.value.trim();
-    const selectedDate = dateInput.value;
+    const date = dateInput.value;
 
-    if (!city || !selectedDate) {
+    if (!city || !date) {
       alert("Please enter both city and date.");
       return;
     }
@@ -17,51 +17,48 @@ document.addEventListener("DOMContentLoaded", () => {
     const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
 
     fetch(apiUrl)
-      .then(response => {
-        if (!response.ok) throw new Error("City not found");
-        return response.json();
+      .then((res) => {
+        if (!res.ok) throw new Error("City not found or API error");
+        return res.json();
       })
-      .then(data => {
-        const output = [];
-        const hourlyData = data.list.filter(item => item.dt_txt.startsWith(selectedDate));
+      .then((data) => {
+        const forecasts = data.list.filter((entry) =>
+          entry.dt_txt.startsWith(date)
+        );
 
-        if (hourlyData.length === 0) {
-          forecastContainer.innerHTML = "<p>No forecast data found for this date.</p>";
+        if (forecasts.length === 0) {
+          forecastOutput.innerHTML = "<p>No forecast data available for this date.</p>";
           return;
         }
 
-        hourlyData.forEach(item => {
-          const baseTime = item.dt_txt.split(" ")[1].slice(0, 5); // e.g., "03:00"
-          const baseTemp = item.main.temp;
-          const humidity = item.main.humidity;
-          const wind = item.wind.speed;
-          const rain = item.rain && item.rain["3h"] ? item.rain["3h"] : 0;
-          const rainProbability = rain ? `${Math.min(100, Math.round((rain / 3) * 100))}%` : "0%";
-          const condition = item.weather[0].main.toLowerCase().includes("rain") ? "Raining" : item.weather[0].main;
+        // Clear previous results
+        forecastOutput.innerHTML = "";
 
-          // Simulate two 30-min intervals per 3-hour block
-          for (let i = 0; i < 2; i++) {
-            const time = new Date(item.dt * 1000 + i * 30 * 60 * 1000)
-              .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        forecasts.forEach((entry) => {
+          const time = entry.dt_txt.split(" ")[1].slice(0, 5);
+          const temp = entry.main.temp;
+          const humidity = entry.main.humidity;
+          const windSpeed = entry.wind.speed;
+          const rainProb = entry.pop ? Math.round(entry.pop * 100) + "%" : "0%";
+          const condition = entry.weather[0].description;
 
-            output.push(`
-              <div class="forecast-block">
-                <h3>${time}</h3>
-                <p>🌡 Temp: ${baseTemp} °C</p>
-                <p>💧 Humidity: ${humidity}%</p>
-                <p>🌬 Wind: ${wind} m/s</p>
-                <p>🌧 Rain Probability: ${rainProbability}</p>
-                <p>🌤 Condition: ${condition}</p>
-              </div>
-            `);
-          }
+          const forecastCard = `
+            <div class="forecast-card">
+              <h3>🕓 ${time}</h3>
+              <p>🌡️ Temp: ${temp} °C</p>
+              <p>💧 Humidity: ${humidity}%</p>
+              <p>🌬️ Wind: ${windSpeed} m/s</p>
+              <p>🌧️ Rain Chance: ${rainProb}</p>
+              <p>🌈 Condition: ${condition}</p>
+            </div>
+          `;
+
+          forecastOutput.innerHTML += forecastCard;
         });
-
-        forecastContainer.innerHTML = output.join("");
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
-        forecastContainer.innerHTML = "<p>Error fetching forecast data.</p>";
+        forecastOutput.innerHTML = "<p>⚠️ Error fetching weather data.</p>";
       });
   });
 });
